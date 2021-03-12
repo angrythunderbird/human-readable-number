@@ -1,65 +1,68 @@
 module.exports = function toReadable(number) {
-  number = 9;
+
+  if (number === 0) {
+    return 'zero';
+  }
+
   const single = {
     0: '',
-    1: "one",
-    2: "two",
-    3: "three",
-    4: "four",
-    5: "five",
-    6: "six",
-    7: "seven",
-    8: "eight",
-    9: "nine"
-  };
-
-  const tens = {
-    0: '',
-    10: "ten",
-    11: "eleven",
-    12: "twelve",
-    13: "thirteen",
-    14: "fourteen",
-    15: "fifteen",
-    16: "sixteen",
+    1: 'one',
+    2: 'two',
+    3: 'three',
+    4: 'four',
+    5: 'five',
+    6: 'six',
+    7: 'seven',
+    8: 'eight',
+    9: 'nine',
+    10: 'ten',
+    11: 'eleven',
+    12: 'twelve',
+    13: 'thirteen',
+    14: 'fourteen',
+    15: 'fifteen',
+    16: 'sixteen',
     17: 'seventeen',
     18: 'eighteen',
     19: 'nineteen'
   };
 
-  const tys = {
+  const tens = {
     0: '',
-    20: "twenty",
-    30: "thirty",
-    40: "forty",
-    50: "fifty",
-    60: "sixty",
-    70: "seventy",
-    80: "eighty",
-    90: "ninety"
+    2: 'twenty',
+    3: 'thirty',
+    4: 'forty',
+    5: 'fifty',
+    6: 'sixty',
+    7: 'seventy',
+    8: 'eighty',
+    9: 'ninety'
   };
 
-  const hundreds = {
-    0: '',
-    100: "hundred"
-  };
-
+  let arrTens = number.toString().split('');
   let words = '';
-  let arr = [];
+  let arr = number.toString().split('');
+  let i = 0;
+  if (arr[1] === '1') {
+    i = +arr[1] * 10 + +arr[2];
+  } else i = +arr[1];
 
   if (number < 20) {
-    words = tens[number];
+    words = single[number];
   } else if (number < 100) {
-    arr = number.toString().split('');
-    words = tys[+arr[0] * 10] + ' ' + tens[+arr[1]];
+    words = tens[+arr[0]] + ' ' + single[+arr[1]];
   } else if (number % 100 === 0) {
-    arr = number.toString().split('');
-    words = tens[+arr[0]] + ' hundred';
-  } else {
-    arr = number.toString().split('');
-    words = tens[+arr[0]] + ' hundred ' + tys[+arr[1] * 10] + ' ' + tens[+arr[2]];
-  }
+    words = single[+arr[0]] + ' hundred';
+  } else if (arr[1] === '0') {
+    words = single[+arr[0]] + ' hundred ' + single[+arr[2]];
+  } else if (+arr[1] === 1) {
+    words = single[+arr[0]] + ' hundred ' + single[i];
+  } else if (number % 10 === 0) {
+    words = single[+arr[0]] + ' hundred ' + tens[+arr[1]];
+  } else words = single[+arr[0]] + ' hundred ' + tens[+arr[1]] + ' ' + single[+arr[2]];
 
-  console.log(words);
+  /* console.log(words.trim()); */
+
+  return words.trim();
 
 };
