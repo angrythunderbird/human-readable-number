@@ -39,13 +39,12 @@ module.exports = function toReadable(number) {
     9: 'ninety'
   };
 
-  let arrTens = number.toString().split('');
   let words = '';
   let arr = number.toString().split('');
-  let i = 0;
+  let teensVar = 0;
   if (arr[1] === '1') {
-    i = +arr[1] * 10 + +arr[2];
-  } else i = +arr[1];
+    teensVar = +arr[1] * 10 + +arr[2];
+  } else teensVar = +arr[1];
 
   if (number < 20) {
     words = single[number];
@@ -55,13 +54,11 @@ module.exports = function toReadable(number) {
     words = single[+arr[0]] + ' hundred';
   } else if (arr[1] === '0') {
     words = single[+arr[0]] + ' hundred ' + single[+arr[2]];
-  } else if (+arr[1] === 1) {
-    words = single[+arr[0]] + ' hundred ' + single[i];
+  } else if (arr[1] === '1') {
+    words = single[+arr[0]] + ' hundred ' + single[teensVar];
   } else if (number % 10 === 0) {
     words = single[+arr[0]] + ' hundred ' + tens[+arr[1]];
   } else words = single[+arr[0]] + ' hundred ' + tens[+arr[1]] + ' ' + single[+arr[2]];
-
-  /* console.log(words.trim()); */
 
   return words.trim();
 
